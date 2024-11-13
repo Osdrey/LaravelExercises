@@ -13,6 +13,9 @@
             <li>
                 <a href="/password">Generador de Contraseñas Seguras</a>
             </li>
+            <li>
+                <a href="/expenses">Gestor de Gastos</a>
+            </li>
         </ul>
     </body>
 @endsection

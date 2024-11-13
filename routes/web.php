@@ -10,8 +10,7 @@ use App\Http\Controllers\TipsController;
 //Generador de contraseñas
 use App\Http\Controllers\PasswordController;
 //Gestor de gastos
-use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExpensesController;
 
 //Menu
 Route::get('/', [MenuController::class, 'index']);
@@ -24,7 +23,7 @@ Route::resource('/tips', TipsController::class);
 Route::get('/password', [PasswordController::class, 'index']);
 Route::post('/password', [PasswordController::class, 'generate'])->name('password.generate');
 //Gestor de gastos
-Route::get('/', [ExpenseController::class, 'index']);
-Route::resource('expenses', ExpenseController::class);
-Route::resource('categories', CategoryController::class);
-Route::get('expenses/{month}/{year}', [ExpenseController::class, 'showMonth'])->name('expenses.month'); // Mostrar los gastos de un mes específico
+Route::resource('expenses', ExpensesController::class);
+Route::get('expenses/{year}/{month}', [ExpensesController::class, 'show'])->name('expenses.show');
+Route::get('categories/create', [ExpensesController::class, 'createCategory'])->name('categories.create');
+Route::post('categories/store', [ExpensesController::class, 'storeCategory'])->name('categories.store');
