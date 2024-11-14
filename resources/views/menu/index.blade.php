@@ -16,6 +16,9 @@
             <li>
                 <a href="/expenses">Gestor de Gastos</a>
             </li>
+            <li>
+                <a href="/reservations">Sistema de Reservas</a>
+            </li>
         </ul>
     </body>
 @endsection
