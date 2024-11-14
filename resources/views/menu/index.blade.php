@@ -19,6 +19,9 @@
             <li>
                 <a href="/reservations">Sistema de Reservas</a>
             </li>
+            <li>
+                <a href="/notes">Gestor de Notas</a>
+            </li>
         </ul>
     </body>
 @endsection

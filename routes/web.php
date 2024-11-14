@@ -15,6 +15,9 @@ use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\reservations\ClassController;
 use App\Http\Controllers\reservations\TopicController;
 use App\Http\Controllers\reservations\ReservationController;
+//Gestor de Notas
+use App\Http\Controllers\Notes\NoteController;
+use App\Http\Controllers\Notes\CategoryController;
 
 //Menu
 Route::get('/', [MenuController::class, 'index']);
@@ -43,3 +46,6 @@ Route::prefix('reservations')->name('reservations.')->group(function () {
     Route::delete('{id}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
     Route::get('{id}', [ReservationController::class, 'show'])->name('reservations.show');
 });
+//Gestor de Notas
+Route::resource('notes', NoteController::class);
+Route::resource('categories', CategoryController::class);
