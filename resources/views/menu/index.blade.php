@@ -22,6 +22,9 @@
             <li>
                 <a href="/notes">Gestor de Notas</a>
             </li>
+            <li>
+                <a href="/events">Calendario de Eventos</a>
+            </li>
         </ul>
     </body>
 @endsection

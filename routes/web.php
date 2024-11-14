@@ -18,6 +18,8 @@ use App\Http\Controllers\reservations\ReservationController;
 //Gestor de Notas
 use App\Http\Controllers\Notes\NoteController;
 use App\Http\Controllers\Notes\CategoryController;
+//Calendario de Eventos
+use App\Http\Controllers\Calendar\EventController;
 
 //Menu
 Route::get('/', [MenuController::class, 'index']);
@@ -49,3 +51,6 @@ Route::prefix('reservations')->name('reservations.')->group(function () {
 //Gestor de Notas
 Route::resource('notes', NoteController::class);
 Route::resource('categories', CategoryController::class);
+//Calendario de Eventos
+Route::resource('events', EventController::class);
+
