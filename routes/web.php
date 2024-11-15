@@ -20,6 +20,10 @@ use App\Http\Controllers\Notes\NoteController;
 use App\Http\Controllers\Notes\CategoryController;
 //Calendario de Eventos
 use App\Http\Controllers\Calendar\EventController;
+//Plataforma de Recetas
+use App\Http\Controllers\Recipes\RecipeController;
+
+
 
 //Menu
 Route::get('/', [MenuController::class, 'index']);
@@ -53,4 +57,5 @@ Route::resource('notes', NoteController::class);
 Route::resource('categories', CategoryController::class);
 //Calendario de Eventos
 Route::resource('events', EventController::class);
-
+//Plataforma de Recetas
+Route::resource('recipes', RecipeController::class);

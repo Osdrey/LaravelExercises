@@ -25,6 +25,9 @@
             <li>
                 <a href="/events">Calendario de Eventos</a>
             </li>
+            <li>
+                <a href="/recipes">Plataforma de Recetas</a>
+            </li>
         </ul>
     </body>
 @endsection
