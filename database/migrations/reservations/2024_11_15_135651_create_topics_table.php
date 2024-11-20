@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('class_id')->constrained()->onDelete('cascade');
+            $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->string('description')->nullable(); // Descripción opcional
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

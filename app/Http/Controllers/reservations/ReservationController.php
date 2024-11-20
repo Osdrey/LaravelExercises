@@ -1,138 +1,95 @@
 <?php
 
-namespace App\Http\Controllers\reservations;
+namespace App\Http\Controllers\Reservations;
 
 use App\Http\Controllers\Controller;
-use App\Models\reservations\Reservations;
-use App\Models\reservations\Classes;
 use Illuminate\Http\Request;
+use App\Models\Reservations\Course;
+use App\Models\Reservations\Reservation;
+use App\Models\Reservations\Topic;
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
-    // Listar todas las reservas
     public function index(Request $request)
     {
-        // Recupera todas las clases
-        $classes = Classes::all();
+        // Obtener todas las clases para el filtro
+        $classes = Course::all();
 
-        // Crear la consulta para las reservas
-        $query = Reservations::with('class');
+        // Filtrar las reservas si se pasa un 'class_id'
+        $reservations = Reservation::with('course', 'topics') // Asegúrate de cargar la relación 'topic'
+            ->when($request->course_id, function ($query) use ($request) {
+                return $query->where('course_id', $request->course_id);
+            })
+            ->get();
 
-        // Filtro opcional por clase (class_id)
-        if ($request->has('class_id') && $request->class_id != '') {
-            $query->where('class_id', $request->class_id);
-        }
-
-        // Obtener todas las reservas
-        $reservations = $query->orderBy('reservation_date', 'desc')->get();
-
-        // Pasar las reservas y las clases a la vista
-        return view('reservations.reservations.index', compact('reservations', 'classes'));
+        return view('reservations.index', compact('reservations', 'classes'));
     }
 
-    // Mostrar formulario para crear una nueva reserva
     public function create()
     {
-        $classes = Classes::all();
-        return view('reservations.reservations.create', compact('classes'));
+        $courses = Course::all();  // Obtener todos los cursos
+        return view('reservations.create', compact('courses'));
     }
 
-    // Guardar una nueva reserva
     public function store(Request $request)
     {
-        // Validación de los campos del formulario
+        // Validación de la entrada
         $validated = $request->validate([
-            'class_id' => 'required|exists:classes,id',
+            'user_id' => 'required|string|max:255',
+            'course_id' => 'required|exists:courses,id',
+            'topic_id' => 'required|exists:topics,id',
             'reservation_date' => 'required|date',
-            'start_time' => 'required|date_format:H:i',
-            'user_name' => 'required|string|max:255',
-            'age' => 'required|integer',
-            'phone' => 'required|string|max:255',
-            'education_level' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'reservation_time' => 'required|date_format:H:i',
         ]);
+
+        // Crear un objeto de fecha y hora combinados
+        $date = Carbon::parse($validated['reservation_date'])->setTimeFromTimeString($validated['reservation_time']);
+
+        // Verificar disponibilidad de la reserva
+        if (!Reservation::available($validated['course_id'], $date->toDateString(), $date->format('H:i'))) {
+            return back()->withErrors('El horario no está disponible.');
+        }
 
         // Crear la reserva
-        $reservation = Reservations::create([
-            'class_id' => $request->class_id,
-            'user_name' => $request->user_name,
-            'age' => $request->age,
-            'phone' => $request->phone,
-            'education_level' => $request->education_level,
-            'email' => $request->email,
-            'reservation_date' => $request->reservation_date,
-            'start_time' => $request->start_time,
-            'status' => 'pending', // O cualquier estado predeterminado
+        $reservation = Reservation::create([
+            'user_id' => $validated['user_id'],
+            'course_id' => $validated['course_id'],
+            'topic_id' => $validated['topic_id'],
+            'reservation_date' => $date, // Guarda la fecha y hora combinadas
+            'status' => 'pending', // Estado de la reserva
         ]);
 
-        // Verificar si la reserva se guardó correctamente
-        if ($reservation) {
-            return redirect()->route('reservations.index')->with('success', 'Reserva creada con éxito.');
-        } else {
-            return back()->with('error', 'Hubo un problema al guardar la reserva.');
-        }
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('reservations.index')->with('success', 'Reserva creada con éxito.');
     }
 
-    // Mostrar formulario para editar una reserva
-    public function edit($id)
+    public function cancel($id)
     {
-        $reservation = Reservations::findOrFail($id);
-
-        // Verificar si se puede editar
-        if (in_array($reservation->status, ['completed', 'cancelled'])) {
-            return redirect()->route('reservations.index')->with('error', 'No se puede editar una reserva completada o cancelada.');
+        $reservation = Reservation::findOrFail($id);
+        if ($reservation->status === 'pending') {
+            $reservation->update(['status' => 'cancelled']);
+            return redirect()->route('reservations.index')->with('success', 'Reserva cancelada.');
         }
-
-        $classes = Classes::all();  // Obtener todas las clases
-        return view('reservations.reservations.edit', compact('reservation', 'classes'));  // Pasar tanto la reserva como las clases
+        return back()->withErrors('Solo se pueden cancelar reservas pendientes.');
     }
 
-    // Método para mostrar una reserva específica
     public function show($id)
     {
-        // Obtener la reserva por ID
-        $reservation = Reservations::findOrFail($id);
+        // Cargar la reserva con las relaciones 'course' y 'topic'
+        $reservation = Reservation::with('course', 'topics')->findOrFail($id);
 
-        // Retornar la vista con la reserva
-        return view('reservations.reservations.show', compact('reservation'));
+        return view('reservations.show', compact('reservation'));
     }
 
-    // Actualizar una reserva
-    public function update(Request $request, $id)
+    public function getTopics($course_id)
     {
-        $request->validate([
-            'class_id' => 'required|exists:classes,id',
-            'user_name' => 'required|string|max:255',
-            'age' => 'required|integer',
-            'phone' => 'required|string|max:20',
-            'education_level' => 'required|string|max:255',
-            'email' => 'required|email',
-            'reservation_date' => 'required|date|after_or_equal:today',
-        ]);
+        // Buscar el curso
+        $course = Course::findOrFail($course_id);
 
-        $reservation = Reservations::findOrFail($id);
+        // Obtener los temas asociados al curso
+        $topics = $course->topics; // Asumiendo que hay una relación 'topics' en el modelo 'Course'
 
-        // Verificar si se puede actualizar
-        if (in_array($reservation->status, ['completed', 'cancelled'])) {
-            return redirect()->route('reservations.index')->with('error', 'No se puede actualizar una reserva completada o cancelada.');
-        }
-
-        $reservation->update($request->all());
-
-        return redirect()->route('reservations.index')->with('success', 'Reserva actualizada con éxito.');
-    }
-
-    // Eliminar una reserva
-    public function destroy($id)
-    {
-        $reservation = Reservations::findOrFail($id);
-
-        // Permitir eliminar solo si no está completada o cancelada
-        if (!in_array($reservation->status, ['completed', 'cancelled'])) {
-            $reservation->delete();
-            return redirect()->route('reservations.index')->with('success', 'Reserva eliminada con éxito.');
-        }
-
-        return redirect()->route('reservations.index')->with('error', 'No se puede eliminar una reserva completada o cancelada.');
+        return response()->json(['topics' => $topics]);
     }
 }
