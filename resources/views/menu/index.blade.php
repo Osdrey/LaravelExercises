@@ -28,6 +28,9 @@
             <li>
                 <a href="/recipes">Plataforma de Recetas</a>
             </li>
+            <li>
+                <a href="/surveys">Plataforma de Encuestas</a>
+            </li>
         </ul>
     </body>
 @endsection

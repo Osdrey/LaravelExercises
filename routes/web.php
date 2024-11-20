@@ -20,7 +20,11 @@ use App\Http\Controllers\Notes\CategoryController;
 use App\Http\Controllers\Calendar\EventController;
 //Plataforma de Recetas
 use App\Http\Controllers\Recipes\RecipeController;
-
+//Plataforma de Encuestas
+use App\Http\Controllers\surveys\SurveyController;
+use App\Http\Controllers\surveys\QuestionController;
+use App\Http\Controllers\surveys\ResponseController;
+use App\Http\Controllers\surveys\ReportController;
 
 
 //Menu
@@ -54,3 +58,14 @@ Route::resource('categories', CategoryController::class);
 Route::resource('events', EventController::class);
 //Plataforma de Recetas
 Route::resource('recipes', RecipeController::class);
+//Plataforma de Encuestas
+Route::resource('surveys', SurveyController::class);
+Route::resource('questions', QuestionController::class);
+Route::resource('responses', ResponseController::class);
+Route::post('surveys/{survey}/questions', [QuestionController::class, 'store'])->name('questions.store');
+Route::post('questions/{question}/options', [QuestionController::class, 'addOptions'])->name('options.store');
+Route::get('surveys/{survey}/respond', [ResponseController::class, 'create'])->name('surveys.response');
+Route::post('surveys/{survey}/respond', [ResponseController::class, 'store'])->name('responses.store');
+Route::get('/surveys/{survey}/results', [SurveyController::class, 'showResults'])->name('surveys.results');
+
+
