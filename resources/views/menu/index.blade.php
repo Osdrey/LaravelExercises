@@ -31,6 +31,9 @@
             <li>
                 <a href="/surveys">Plataforma de Encuestas</a>
             </li>
+            <li>
+                <a href="/chronometer">Cronómetro Online</a>
+            </li>
         </ul>
     </body>
 @endsection

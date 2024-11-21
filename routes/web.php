@@ -25,6 +25,8 @@ use App\Http\Controllers\surveys\SurveyController;
 use App\Http\Controllers\surveys\QuestionController;
 use App\Http\Controllers\surveys\ResponseController;
 use App\Http\Controllers\surveys\ReportController;
+//Cronómetro Online
+use App\Http\Controllers\chronometer\ChronometerController;
 
 
 //Menu
@@ -67,5 +69,12 @@ Route::post('questions/{question}/options', [QuestionController::class, 'addOpti
 Route::get('surveys/{survey}/respond', [ResponseController::class, 'create'])->name('surveys.response');
 Route::post('surveys/{survey}/respond', [ResponseController::class, 'store'])->name('responses.store');
 Route::get('/surveys/{survey}/results', [SurveyController::class, 'showResults'])->name('surveys.results');
-
+//Cronómetro Online
+Route::prefix('chronometer')->group(function() {
+    Route::get('/', [ChronometerController::class, 'index'])->name('chronometer.index');
+    Route::get('/start/{id}', [ChronometerController::class, 'start'])->name('chronometer.start');
+    Route::get('/pause/{id}', [ChronometerController::class, 'pause'])->name('chronometer.pause');
+    Route::get('/reset/{id}', [ChronometerController::class, 'reset'])->name('chronometer.reset');
+    Route::get('/registerLap/{id}', [ChronometerController::class, 'registerLap'])->name('chronometer.registerLap');
+});
 
