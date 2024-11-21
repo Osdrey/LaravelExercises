@@ -1,0 +1,90 @@
+/* Estilos generales para el cronómetro */
+#timer {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+}
+
+#current-time {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--electricBlue);
+}
+
+/* Estilos para los botones */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Colores de los botones basados en la paleta */
+.btn-success {
+    background-color: var(--electricBlue);
+    color: var(--darkBlue);
+    box-shadow: 0 0 1px 1px var(--blankGray);
+}
+
+.btn-success:hover {
+    background-color: var(--brillantCian);
+    color: white;
+}
+
+.btn-warning {
+    background-color: var(--steelBlue);
+    color: white;
+    box-shadow: 0 0 1px 1px var(--electricBlue);
+}
+
+.btn-warning:hover {
+    background-color: var(--electricBlue);
+    color: white;
+}
+
+.btn-info {
+    background-color: var(--darkBlue);
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: var(--steelBlue);
+    color: white;
+    box-shadow: 0 0 1px 1px var(--electricBlue);
+}
+
+.btn-danger {
+    background-color: var(--carbonGray);
+    color: white;
+    box-shadow: 0 0 2px 2px var(--electricBlue);
+}
+
+.btn-danger:hover {
+    background-color: var(--black);
+    color: white;
+}
+
+/* Vueltas registradas */
+ul {
+    list-style-type: none;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: var(--blankGray);
+    margin: 5px 0;
+}
+
+li {
+    font-size: 1.3rem;
+    margin: 5px 0;
+    text-align: center;
+}

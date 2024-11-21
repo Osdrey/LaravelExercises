@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <link rel="stylesheet" href="{{ asset('css/chronometer/styles.css') }}">
     <div class="container">
         <h1>Cronómetro</h1>
 
@@ -24,7 +25,7 @@
             @endif
         </div>
 
-        <h3>Vueltas Registradas</h3>
+        <h2>Vueltas Registradas</h2>
         <ul>
             @foreach($chronometer->laps as $lap)
                 <li>Vuelta: {{ number_format($lap->lap_time, 2) }} segundos</li>

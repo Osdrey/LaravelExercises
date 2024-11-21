@@ -1,8 +1,18 @@
+/* Colores */
+:root {
+    --black: #0D1117;        /* Color para el fondo principal */
+    --darkBlue: #1E2A39;     /* Color para secciones importantes o componentes secundarios*/
+    --electricBlue: #58A6FF; /* Color para enlaces, botones o acentuaciones */
+    --steelBlue: #3A506B;    /* Color para bordes o separadores */
+    --carbonGray: #21262D;   /* Color para contenedores o areas secundarias */
+    --brillantCian: #56D7D9; /* Color para hoover o efectos interactivos */
+    --blankGray: #C9D1D9;    /* Color para texto principal sobre fondo oscuro */
+}
 
 /* Estilo general para el body */
 body {
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: var(--black);
+    color: var(--blankGray);
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
@@ -12,128 +22,99 @@ body {
     height: 100vh;
 }
 
-/* Contenedor principal */
-.container {
-    width: 80%;
-    max-width: 900px;
-    margin: 0 auto;
-
+/* Header */
+header {
+    background-color: var(--carbonGray);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
-/* Botón de agregar tarea */
-.add-task-button-container {
-    text-align: left;
+header h1 {
+    color: var(--blankGray);
+    margin: 0;
+}
+
+.header-button {
+    background-color: var(--electricBlue);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.header-button:hover {
+    background-color: var(--brillantCian);
+}
+
+/* Container */
+.container {
+    background-color: var(--darkBlue);
+    width: 90%;
+    max-width: 900px;
+    margin: 10px auto;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 5px var(--electricBlue);
+}
+
+.container h1, h2 {
+    color: var(--blankGray);
     margin-bottom: 20px;
 }
 
-.add-task-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.add-task-button:hover {
-    background-color: #234e25;
-    color: white;
-}
-
-
-/* Botón de eliminar */
-.task-actions {
-    text-align: center;
-}
-
-.delete-btn {
-    text-align: center;
-    background-color: #f44336;
-    color: #fff;
-    border: none;
-    padding: 8px 15px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.delete-btn:hover {
-    background-color: #8d2020;
-}
-
-/* Contenedor de la tabla de tareas */
-
-.task-table-column {
-    padding: 10px;
-    font-weight: bold;
-    background-color: #333;
-    color: white;
-    text-align: center;
-    width: 33%;
-}
-
-.task-table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.container label {
+    display: block;
     margin-bottom: 5px;
+    color: var(--blankGray);
 }
 
-.task-row {
-    background-color: #444;
-    margin-bottom: 2px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.task-column {
+.container input {
+    width: 100%;
     padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--steelBlue);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Pie de página */
+footer {
+    background-color: var(--carbonGray);
+    color: var(--blankGray);
     text-align: center;
-    width: 33%;
-    padding: 10px;
-}
-
-.task-name a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.task-name a:hover {
-    color: #4CAF50;
-}
-
-/* Agregar un hover para cada fila de la tabla */
-.task-row:hover {
-    background-color: #555;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
 
 /* Enlaces */
 a {
-    color: #4CAF50;
+    color: var(--electricBlue); /* Color para enlaces */
     text-decoration: none;
 }
 
 a:hover {
-    color: #45a049;
+    color: var(--brillantCian); /* Efecto hover en enlaces */
 }
 
-/* Estilo para los campos de entrada */
-.input-field {
-    width: 100%;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    font-size: 16px;
+/* Listas */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
-.input-field:focus {
-    border-color: #4CAF50;
-    outline: none;
+ul li {
+    margin-bottom: 10px;
 }
